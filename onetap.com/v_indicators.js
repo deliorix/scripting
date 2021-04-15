@@ -54,22 +54,13 @@ function manualAntiAim() {
 
     if (IsLeftPressed) {
         UI.SetValue(["Rage", "Anti Aim", "Directions", "Yaw offset"], -90);
-        LeftActive = 1;
-        BackActive = 0;
-        RightActive = 0;
-    }
-
-    if (IsBackPressed) {
+        LeftActive = 1, BackActive = 0, RightActive = 0;
+    } else if (IsBackPressed) {
         UI.SetValue(["Rage", "Anti Aim", "Directions", "Yaw offset"], 0);
-        LeftActive = 0;
-        BackActive = 1;
-        RightActive = 0;
-    }
-    if (IsRightPressed) {
+        LeftActive = 0, BackActive = 1, RightActive = 0;
+    } else if (IsRightPressed) {
         UI.SetValue(["Rage", "Anti Aim", "Directions", "Yaw offset"], 90)
-        LeftActive = 0;
-        BackActive = 0;
-        RightActive = 1;
+        LeftActive = 0, BackActive = 0, RightActive = 1;
     }
 }
 
@@ -92,7 +83,6 @@ BPz = [x, y + 53];
 function drawIndicators() {
     var font = Render.GetFont("segoeuib.ttf", 9, true);
 
-    isExploitCharged = Exploit.GetCharge() == 1;
     isDoubletap = UI.GetValue(["Rage", "Exploits", "Keys", "Double tap"]),
     isHideshots = UI.GetValue(["Rage", "Exploits", "Keys", "Hide shots"]),
     isForceBAIM = UI.GetValue(["Rage", "General", "General", "Key assignment", "Force body aim"]),
@@ -155,13 +145,13 @@ function drawIndicators() {
         Render.String(x, y + 91, 1, isInverted ? "LEFT" : "RIGHT", [0, 0, 0, 255], font);
         Render.String(x, y + 90, 1, isInverted ? "LEFT" : "RIGHT", [255, 255, 255, 255], font);
 
-        Render.String(x, y + 101, 1, isHideshots || isExploitCharged ? "HIDE" : "ANIM", isHideshots || isExploitCharged ? [0, 0, 0, 255] : [0, 0, 0, alpha], font);
-        Render.String(x, y + 100, 1, isHideshots || isExploitCharged ? "HIDE" : "ANIM", isHideshots || isExploitCharged ? [50, 110, 170, 255] : [255, 145, 65, alpha], font);
+        Render.String(x, y + 101, 1, isHideshots || Exploit.GetCharge() == 1 ? "HIDE" : "ANIM", isHideshots || Exploit.GetCharge() == 1 ? [0, 0, 0, 255] : [0, 0, 0, alpha], font);
+        Render.String(x, y + 100, 1, isHideshots || Exploit.GetCharge() == 1 ? "HIDE" : "ANIM", isHideshots || Exploit.GetCharge() == 1 ? [50, 110, 170, 255] : [255, 145, 65, alpha], font);
 
         Render.String(x, y + 111, 1, isFakeduck ? "DUCK" : "", [0, 0, 0, fd_alpha], font);
         Render.String(x, y + 110, 1, isFakeduck ? "DUCK" : "", [255, 255, 255, fd_alpha], font);
     }
 }
 
-Cheat.RegisterCallback("CreateMove", "manualAntiAim"),
+Cheat.RegisterCallback("CreateMove", "manualAntiAim");
 Cheat.RegisterCallback("Draw", "drawIndicators");
